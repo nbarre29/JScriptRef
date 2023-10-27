@@ -19,6 +19,13 @@ const result = words.map((word) => word.toUpperCase());
 
 console.log(result);
 -----------------------------------------------------------
+
+//Typescript
+const words: string[] = ["spray", "limit"];
+const result: string[] = words.map((word: string) => word.toUpperCase());
+console.log(result); //[ 'SPRAY', 'LIMIT' ]
+-----------------------------------------------------------
+
 //takes an array of objects and creates a new array containing the newly reformatted objects.
 
 const kvArray = [
@@ -31,7 +38,25 @@ const reformattedArray = kvArray.map(({ key, value }) => ({ [key]: value }));
 
 console.log(reformattedArray); // [ { '1': 10 }, { '2': 20 }, { '3': 30 } ]
 console.log(kvArray); // [ { key: 1, value: 10 }, { key: 2, value: 20 }, { key: 3, value: 30 } ]
+-----------------------------------------------------------
 
+//Typescript
+interface KeyValue {
+  key: number;
+  value: number;
+}
+
+const kvArray: KeyValue[] = [
+  { key: 1, value: 10 },
+  { key: 2, value: 20 },
+  { key: 3, value: 30 },
+];
+
+const reformattedArray: { [key: number]: number }[] = kvArray.map(
+  ({ key, value }) => ({ [key]: value })
+);
+
+console.log(reformattedArray); // [ { '1': 10 }, { '2': 20 }, { '3': 30 } ]
 ___________________________________________________________
 
 //uses filter() to create a filtered array that has all elements with values less than 10 removed.
@@ -131,6 +156,16 @@ const student = {
 const hasAge = Object.keys(student).includes("age");
 console.log(`Has age property: ${hasAge}`); //Has age property: true
 -----------------------------------------------------------
+//TypeScript
+const student: { name: string; age: number } = {
+  name: "Alice",
+  age: 25,
+};
+
+const hasAge: boolean = Object.keys(student).includes("age");
+console.log(`Has age property: ${hasAge}`); // Has age property: true
+-----------------------------------------------------------
+
 //Getting the Number of Properties in an Object:
 //If you need to count the number of properties in an object, you can use Object.keys().length.
 const car = {
@@ -314,7 +349,7 @@ Promise.all([promise1, promise2, promise3])
     console.error(error); // Error: Something went wrong
   });
 
------------------------------------------------------------
+___________________________________________________________
 
 
 
