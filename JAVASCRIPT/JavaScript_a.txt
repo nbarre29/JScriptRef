@@ -244,6 +244,78 @@ In this example, myObject is an object with numeric keys and numeric values. The
 
 This is useful when you need to create objects with numeric indices, which can be thought of as similar to arrays, but with arbitrary numeric keys.
 ___________________________________________________________
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
+
+The Promise.all() static method takes an iterable of promises as input and returns a single Promise. This returned promise fulfills when all of the input's promises fulfill.It rejects when any of the input's promises rejects, with this first rejection reason.
+
+const promise1 = Promise.resolve(3);
+const promise2 = 42;
+const promise3 = new Promise((resolve, reject) => {
+  setTimeout(resolve, 100, "foo");
+});
+
+Promise.all([promise1, promise2, promise3]).then((values) => {
+  console.log(values); //[ 3, 42, 'foo' ]
+});
+
+Here's the explanation of above code.
+promise1 is a resolved promise with a value of 3.
+promise2 is not a promise; it's just a regular value of 42.
+promise3 is a promise that resolves with the value 'foo' after a 100-millisecond delay.
+
+When you use Promise.all to wait for all these promises to resolve, it will wait for all of them, but it doesn't convert non-promise values into promises. Instead, it treats them as immediate values. So, the resulting values array will contain the resolved values of the promises or the immediate values if they are not promises.
+-----------------------------------------------------------
+//Typescript
+const promise1: Promise<number> = Promise.resolve(3);
+const promise2: number = 42;
+const promise3: Promise<string> = new Promise((resolve, reject) => {
+  setTimeout(resolve, 100, "foo");
+});
+
+Promise.all([promise1, Promise.resolve(promise2), promise3]).then(
+  (values: (number | string)[]) => {
+    console.log(values); // [ 3, 42, 'foo' ]
+  }
+);
+
+-----------------------------------------------------------
+
+If you want to rewrite the code to include a promise that gets rejected, you can modify it as follows:
+
+const promise1 = Promise.resolve(3);
+const promise2 = Promise.reject("Error: Something went wrong");
+const promise3 = new Promise((resolve, reject) => {
+  setTimeout(resolve, 100, "foo");
+});
+
+Promise.all([promise1, promise2, promise3])
+  .then((values) => {
+    console.log(values);
+  })
+  .catch((error) => {
+    console.error(error); //Error: Something went wrong
+  });
+  
+In this code, promise2 is a promise that gets rejected with the message "Error: Something went wrong." When you use Promise.all, it will wait for all the promises to settle (either resolve or reject). In this case, since promise2 is rejected, the catch block will be executed, and you'll see the error message:
+  
+-----------------------------------------------------------
+//Typescript
+const promise1: Promise<number> = Promise.resolve(3);
+const promise2: Promise<string> = Promise.reject("Error: Something went wrong");
+const promise3: Promise<string> = new Promise((resolve, reject) => {
+  setTimeout(resolve, 100, "foo");
+});
+
+Promise.all([promise1, promise2, promise3])
+  .then((values: (number | string)[]) => {
+    console.log(values);
+  })
+  .catch((error: string) => {
+    console.error(error); // Error: Something went wrong
+  });
+
+-----------------------------------------------------------
+
 
 
 
