@@ -28,6 +28,13 @@ const transformedData = filteredPeople.map((person) => ({
 // Output the filtered and transformed data
 console.log("Filtered and Transformed Data:");
 console.log(transformedData);
+
+
+
+We can also add type for const transformedData:  { name: string; ageCategory: string }[]
+or as below
+const transformedData: Array<{ name: string; ageCategory: string }>
+
 ---------------------------------------------------------------
 //convert the code into an exportable class module and write a Jest test case,
 // Utils.ts

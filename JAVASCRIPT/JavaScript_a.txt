@@ -351,6 +351,41 @@ Promise.all([promise1, promise2, promise3])
 
 ___________________________________________________________
 
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Function/bind
+
+const myModule = {
+  x: 42,
+  getX: function () {
+    return this.x;
+  },
+};
+
+const unboundGetX = myModule.getX;
+console.log(unboundGetX());  // undefined  // The function gets invoked at the global scope
+
+const boundGetX = unboundGetX.bind(myModule);
+console.log(boundGetX()); // Expected output: 42
+
+The myModule object is created with two properties: x and getX. The x property is a number with the value 42, and the getX property is a function that returns the value of the x property.
+
+The unboundGetX variable is assigned the getX method from the myModule object. This creates a new function that is a copy of the getX method, but it is not bound to any particular object.
+
+The unboundGetX() function is called. When a function is invoked without being bound to an object, the this keyword refers to the global object. In this case, the global object does not have an x property, so the unboundGetX() function returns undefined.
+
+The boundGetX variable is assigned the unboundGetX() function bound to the myModule object. This creates a new function that is a copy of the unboundGetX() function, but it is always bound to the myModule object.
+
+The boundGetX() function is called. When a function is invoked bound to an object, the this keyword refers to that object. In this case, the boundGetX() function is bound to the myModule object, so the this.x property refers to the x property of the myModule object. Therefore, the boundGetX() function returns the value 42.
+
+Summary:
+The bind() method is used to bind a function to a particular object. When a function is bound to an object, the this keyword refers to that object when the function is invoked. This can be useful for ensuring that a function is always invoked with the correct context.
+
+In the above example, the unboundGetX() function is not bound to any particular object. This means that when it is invoked, the this keyword refers to the global object. The global object does not have an x property, so the unboundGetX() function returns undefined.
+
+The boundGetX() function is bound to the myModule object. This means that when it is invoked, the this keyword refers to the myModule object. The myModule object has an x property with the value 42, so the boundGetX() function returns the value 42.
+
+___________________________________________________________
+
+
 
 
 
