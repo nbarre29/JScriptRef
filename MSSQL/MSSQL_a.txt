@@ -319,6 +319,70 @@ EXEC GeneralQuery Products
 EXEC GeneralQuery Categories
 
 ___________________________________________________________
+-> Dynamic sql output parameter
+https://www.youtube.com/watch?v=na07ZODz-Gk (Dynamic sql output parameter)
+
+Create table Employees
+(
+     ID int primary key identity,
+     FirstName nvarchar(50),
+     LastName nvarchar(50),
+     Gender nvarchar(50),
+     Salary int
+)
 
 
+Insert into Employees values ('Mark', 'Hastings', 'Male', 60000)
+Insert into Employees values ('Steve', 'Pound', 'Male', 45000)
+Insert into Employees values ('Ben', 'Hoskins', 'Male', 70000)
+Insert into Employees values ('Philip', 'Hastings', 'Male', 45000)
+Insert into Employees values ('Mary', 'Lambeth', 'Female', 30000)
+Insert into Employees values ('Valarie', 'Vikings', 'Female', 35000)
+Insert into Employees values ('John', 'Stanmore', 'Male', 80000)
+
+
+--We want to write a dynamic sql statement that returns total number of male of female employees. If the gender value is specified as "Male", then the query should return total male --employees. Along the same lines, if the the value for gender is "Female", then we should get total number of female employees.
+--The following dynamic sql, will give us what we want. In this case, the query returns total number of "Male" employees. If you want the total number of female employees, simply set --@gender='Female'.
+Declare @sql nvarchar(max)
+Declare @gender nvarchar(10)
+Set @gender = 'Male'
+Set @sql = 'Select Count(*) from Employees where Gender=@gender'
+Execute sp_executesql @sql, N'@gender nvarchar(10)', @gender
+
+
+--At the moment we are not using output parameters. If you want the count of employees to be returned using an OUTPUT parameter, then we have to do a slight modification to the query --as shown below. The key here is to use the OUTPUT keyword in your dynamic sql. This is very similar to using OUTPUT parameters with a stored procedure.
+Declare @sql nvarchar(max)
+Declare @gender nvarchar(10)
+Declare @count int
+Set @gender = 'Male'
+Set @sql = 'Select @count = Count(*) from Employees where Gender=@gender'
+Execute sp_executesql @sql, N'@gender nvarchar(10), @count int OUTPUT', @gender, @count OUTPUT
+Select @count
+
+
+--Create a SP of the above
+Create procedure spEmployeesCount
+@gender nvarchar(10),
+@count int OUTPUT
+as 
+Begin
+		Declare @sql nvarchar(max)
+		Set @sql = 'Select @count = Count(*) from Employees where Gender=@gender'
+		Execute sp_executesql @sql, N'@gender nvarchar(10), @count int OUTPUT', @gender, @count OUTPUT
+		Select @count
+End
+
+
+--The OUTPUT parameter returns NULL, if you forget to use OUTPUT keyword.. The following query returns NULL, as we removed the OUTPUT keyword from @count parameter
+
+Declare @sql nvarchar(max)
+Declare @gender nvarchar(10)
+Declare @count int
+Set @gender = 'Male'
+Set @sql = 'Select @count = Count(*) from Employees where Gender=@gender'
+Execute sp_executesql @sql, N'@gender nvarchar(10), @count int OUTPUT', @gender, @count
+Select @count
+___________________________________________________________
+
+___________________________________________________________
 -----------------------------------------------------------
