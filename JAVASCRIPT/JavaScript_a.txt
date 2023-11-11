@@ -384,9 +384,31 @@ In the above example, the unboundGetX() function is not bound to any particular 
 The boundGetX() function is bound to the myModule object. This means that when it is invoked, the this keyword refers to the myModule object. The myModule object has an x property with the value 42, so the boundGetX() function returns the value 42.
 
 ___________________________________________________________
+In JavaScript, all class members are public
+https://stackoverflow.com/questions/40587873/naming-convention-for-class-properties-in-typescript
 
+The private modifier can only be used in Typescript files.
 
+https://www.typescriptlang.org/docs/handbook/2/classes.html#getters--setters
 
+https://google.github.io/styleguide/tsguide.html
+Do not use trailing or leading underscores for private properties or methods.
+
+___________________________________________________________
+
+const numbers = [1, 2, 2, 3, 4, 4, 5, 6, 6];
+
+const uniqueNumbers = numbers.filter(
+  (value, index, self) => self.indexOf(value) === index
+);
+
+console.log(uniqueNumbers); // Output: [1, 2, 3, 4, 5, 6]
+
+In this example, the numbers array contains some duplicate values. The filter method is used to create a new array, uniqueNumbers, which only contains unique values. The condition self.indexOf(value) === index ensures that only the first occurrence of each value is retained in the resulting array, effectively removing duplicates.
+
+The condition specified in the arrow function checks if the index of the current value (value) in the array is equal to the first index where that value appears (index). In other words, it retains only the first occurrence of each unique value while removing any duplicates.
+
+___________________________________________________________
 
 
 
