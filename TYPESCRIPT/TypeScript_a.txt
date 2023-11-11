@@ -200,3 +200,52 @@ describe("ProductFilter", () => {
 
 
 __________________________________________________________________________
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+}
+
+export class ProductFilter {
+  private products: Product[];
+
+  constructor(products: Product[]) {
+    this.products = products;
+  }
+
+  filterAndTransform(): string[] {
+    const filteredProducts = this.products.filter((product) => {
+      // Filter out products that are more than $30.
+      if (product.price > 30) {
+        return false;
+      }
+
+      // Filter out products that are not in the "Electronics" or "Food" categories.
+      if (product.category !== "Electronics" && product.category !== "Food") {
+        return false;
+      }
+
+      // Return true to include the product in the filtered array.
+      return true;
+    });
+
+    const productNames = filteredProducts.map((product) => product.name);
+
+    return productNames;
+  }
+}
+
+const products: Product[] = [
+  { id: 1, name: "Product A", price: 10, category: "Electronics" },
+  { id: 2, name: "Product B", price: 20, category: "Food" },
+  { id: 3, name: "Product C", price: 30, category: "Clothing" },
+  { id: 4, name: "Product D", price: 40, category: "Electronics" },
+  { id: 5, name: "Product E", price: 50, category: "Food" },
+];
+
+const productFilter = new ProductFilter(products);
+console.log(productFilter.filterAndTransform());
+__________________________________________________________________________
+
