@@ -407,7 +407,35 @@ console.log(uniqueNumbers); // Output: [1, 2, 3, 4, 5, 6]
 In this example, the numbers array contains some duplicate values. The filter method is used to create a new array, uniqueNumbers, which only contains unique values. The condition self.indexOf(value) === index ensures that only the first occurrence of each value is retained in the resulting array, effectively removing duplicates.
 
 The condition specified in the arrow function checks if the index of the current value (value) in the array is equal to the first index where that value appears (index). In other words, it retains only the first occurrence of each unique value while removing any duplicates.
+-----------------------------------------------------------
+Certainly! Another way to obtain an array with unique values is to use a Set, which automatically removes duplicate values. Here's how you can rewrite the program using a Set:
 
+
+const numbers = [1, 2, 2, 3, 4, 4, 5, 6, 6];
+const uniqueNumbers = [...new Set(numbers)];
+console.log(uniqueNumbers); //[ 1, 2, 3, 4, 5, 6 ]
+
+In this version, the Set object is used to store only unique values, and then the spread operator (...) is used to convert the set back into an array. This results in an array with only the unique values from the original array numbers.
+-----------------------------------------------------------
+the spread operator is just one way to convert a Set back to an array. Another common method is to use the Array.from method. Here's how you can do it:
+
+const numbers = [1, 2, 2, 3, 4, 4, 5, 6, 6];
+const uniqueNumbers = Array.from(new Set(numbers));
+console.log(uniqueNumbers); //[ 1, 2, 3, 4, 5, 6 ]
+
+In this example, Array.from is used to create a new array from the Set, resulting in an array with only the unique values. Both the spread operator and Array.from are commonly used for this purpose, and you can choose the one that you find more readable or suitable for your coding style.
+___________________________________________________________
+//Typescript
+const numbers: number[] = [1, 2, 2, 3, 4, 4, 5, 6, 6];
+
+const uniqueNumbers: number[] = numbers.filter(
+  (value: number, index: number, self: number[]) =>
+    self.indexOf(value) === index
+);
+
+console.log(uniqueNumbers);
+
+added type annotations for the numbers array and the parameters of the callback function passed to the filter method. The types indicate that numbers is an array of numbers, and the parameters of the callback function are also numbers. This helps TypeScript provide better type checking and autocompletion support.
 ___________________________________________________________
 
 
