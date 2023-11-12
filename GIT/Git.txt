@@ -1,0 +1,21 @@
+https://www.youtube.com/watch?v=BNF4le5X1Ms  (How to edit pushed git commit message?)
+
+We can use gitbash or commandprompt to execute below commands
+
+git commit --amend
+ESC I
+edit the commit message
+ESC Shift + ZZ
+git push -f
+
+
+git rebase -i HEAD~2
+ESC I
+edit
+ESC Shift + ZZ
+git commit --amend
+ESC I
+edit the commit message
+ESC Shift + ZZ
+git rebase --continue
+git push -f
