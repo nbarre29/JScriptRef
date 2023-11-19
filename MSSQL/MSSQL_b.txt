@@ -1,0 +1,172 @@
+https://www.youtube.com/watch?v=1fopoivF2ws&t=301s (Stored procedure that uses a User-Defined TABLE TYPE or Table-Valued parameters in SQL Server 2019.)
+
+My Observation:
+There's a mismatch in the structure of your table type and the corresponding table. i.e. In the table types few columns are missing due to which we might see some warnings.
+Still this example is a good way to understand the concept.
+When using table-valued parameters in SQL Server, the structure of the table type should match the structure of the table you intend to use it with.
+
+   
+CREATE DATABASE MyDB;
+
+use MyDB;
+
+create table PurchaseOrder
+(
+	row_id				bigint			identity(1,1) not null primary key,
+	po_order_id			bigint			not null,
+	order_date			date			not null,
+	customer_id			int				not null,
+	order_total_cost	decimal(10,2)   default 0.00,
+	create_date			datetime		not null,
+	create_user			nvarchar(30)	not null,
+	update_date			datetime,
+	update_user			nvarchar(30)
+);
+
+
+create table PODetailLines
+(
+	po_order_id			bigint not null,
+	line_number			int	not null,
+	item_id				int not null,
+	qty					int not null,
+	unit_price			decimal(10,2),
+	item_description	nvarchar(100),
+	line_total_cost		decimal(10,2),
+	row_ts				timestamp,
+	create_date			datetime		not null,
+	create_user			nvarchar(30)	not null,
+	update_date			datetime,
+	update_user			nvarchar(30)
+);
+
+
+create type PurchaseOrderType as Table
+(
+	po_order_id			bigint			not null,
+	order_date			datetime		not null,
+	customer_id			int				not null,
+	order_total_cost	decimal(10,2),
+	create_date			datetime		not null,
+	create_user			nvarchar(30)	not null
+);
+
+
+create type PODetailType as Table
+(
+	po_order_id			bigint not null,
+	line_number			int	not null,
+	item_id				int not null,
+	qty					int not null,
+	unit_price			decimal(10,2),
+	item_description	nvarchar(100),
+	line_total_cost		decimal(10,2),
+	create_user			nvarchar(30)
+);
+-------------------------------------------------------------------
+create procedure PROC_SaveShoppingCartOrder
+(
+	@master		PurchaseOrderType	READONLY,
+	@details	PODetailType		READONLY
+)
+as
+/*
+	history
+	9/2/2021  programmer-name	save order to PurchaseOrder - @master
+								save details to PODetailLines @details
+*/
+begin
+
+	declare @po_order_id bigint = (select po_order_id from @master)
+
+	begin tran
+
+		insert into PurchaseOrder(
+				po_order_id, order_date, customer_id, order_total_cost,
+				create_date, create_user)
+		select
+				po_order_id, order_date,  customer_id, order_total_cost,
+				create_date, create_user
+		from	@master;
+
+
+
+		insert into PODetailLines ( 
+				po_order_id,	line_number,	item_id,
+				qty,			unit_price,		item_description, 
+				line_total_cost,create_date,	create_user)
+		select 
+				po_order_id,	line_number,	item_id,
+				qty,			unit_price,		item_description, 
+				line_total_cost, getdate(),		create_user
+		from	@details
+
+
+		declare @order_total decimal(10,2) = 
+			(select sum(line_total_cost) from @details);
+
+		update PurchaseOrder
+		set order_total_cost = @order_total
+		where po_order_id = @po_order_id;
+
+	commit;
+end;
+
+-------------------------------------------------------------------
+
+--a customer is using the web site
+--they are selecting items, and adding
+--to their shopping cart
+declare @master as PurchaseOrderType;
+insert into @master
+(
+	po_order_id,			
+	order_date	,		
+	customer_id	,		
+	order_total_cost,	
+	create_date,
+	create_user
+)
+values
+(	10000100,
+	cast(getdate() as date),
+	15001,
+	0,
+	getdate(),
+	N'person name'
+)
+
+--select * from @master
+
+
+declare @details as PODetailType;
+insert into @details
+(
+	po_order_id,		
+	line_number,		
+	item_id,			
+	qty,				
+	unit_price,		
+	item_description,
+	line_total_cost,
+	create_user
+)
+values
+
+(10000100, 1, 14, 1, 23.55, N'yard rake',	23.55,	N'person name'),
+(10000100, 2, 73, 1, 43.55, N'shovel',		43.55,	N'person name'),
+(10000100, 3, 86, 2, 19.55, N'yard gloves', 39.10,	N'person name'),
+(10000100, 4, 33, 12, 7.99, N'plant',		95.88,	N'person name'),
+(10000100, 5, 61, 2, 29.99, N'water hose',	59.98,	N'person name')
+
+select * from @details
+
+
+exec PROC_SaveShoppingCartOrder @master, @details
+
+use mydb;
+
+select * from PurchaseOrder
+
+select * from PODetailLines
+-------------------------------------------------------------------
