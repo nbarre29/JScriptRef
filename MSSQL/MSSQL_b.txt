@@ -255,3 +255,31 @@ INSERT INTO @EmployeeTableType VALUES (5, 'Rob', 'Male')
 
 EXECUTE spInsertEmployees @EmployeeTableType
 ___________________________________________________________
+
+-> https://www.youtube.com/watch?v=AzkHAO4JzNQ (Coalesce function)
+According to the MSDN Books online COALESCE() returns the first Non NULL value. Let's understand this with an example.
+
+
+Consider the Employees Table below. Not all employees have their First, Midde and Last Names filled. Some of the employees has First name missing, some of them have Middle Name missing and some of them last name.
+
+
+-- Create table
+CREATE TABLE tblEmployee (
+    Id INT PRIMARY KEY,
+    FirstName NVARCHAR(50),
+    MiddleName NVARCHAR(50),
+    LastName NVARCHAR(50)
+);
+
+-- Insert values
+INSERT INTO tblEmployee (Id, FirstName, MiddleName, LastName)
+VALUES 
+    (1, 'Sam', NULL, NULL),
+    (2, NULL, 'Todd', 'Tanzan'),
+    (3, NULL, NULL, 'Sara'),
+    (4, 'Ben', 'Parker', NULL),
+    (5, 'James', 'Nick', 'Nancy');
+
+
+select Id,COALESCE(FirstName,MiddleName,LastName) as Name from tblEmployee
+___________________________________________________________
