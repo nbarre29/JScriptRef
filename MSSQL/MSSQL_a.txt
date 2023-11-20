@@ -1,4 +1,4 @@
-->  Sample SQL code for an MSSQL database that illustrates the parent-child-grandchild relationship, let's consider a simplified e-commerce database with three tables: Customers (parent), Orders (child), and OrderItems (grandchild). Below is an example of how these tables might be structured, along with sample SQL queries to demonstrate the relationship:
+-> Sample SQL code for an MSSQL database that illustrates the parent-child-grandchild relationship, let's consider a simplified e-commerce database with three tables: Customers (parent), Orders (child), and OrderItems (grandchild). Below is an example of how these tables might be structured, along with sample SQL queries to demonstrate the relationship:
 
 
 CREATE DATABASE MyNewDatabase;
@@ -239,7 +239,7 @@ INSERT INTO Books (BookID, Title, AuthorID, PublicationYear, Price)
 VALUES (108, 'Sample Book 7', 4, 2023, 15.00);
 
 ___________________________________________________________
-https://www.youtube.com/watch?v=MALaOQe5if4 ( Dynamic SQL 1 in 5 Minutes )
+-> https://www.youtube.com/watch?v=MALaOQe5if4 ( Dynamic SQL 1 in 5 Minutes )
 
 We can just make use of the LibraryDB database from above example
 
