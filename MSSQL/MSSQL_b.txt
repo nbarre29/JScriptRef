@@ -209,6 +209,9 @@ output inserted.IdEmp, deleted.Location 'Old Location', inserted.Location as 'Ne
 ___________________________________________________________
 
 -> https://www.youtube.com/watch?v=Ewf5bivTKdI&t=316s (Table valued parameters in SQL Server)
+
+Table Valued Parameter is a new feature introduced in SQL SERVER 2008. Table Valued Parameter allows a table (i.e multiple rows of data) to be passed as a parameter to a stored procedure from T-SQL code or from an application. Prior to SQL SERVER 2008, it is not possible to pass a table variable as a parameter to a stored procedure.
+
 Let us understand how to pass multiple rows to a stored procedure using Table Valued Parameter with an example. We want to insert multiple rows into the following Employees table. 
 
 SQL Script to create the Employees table
