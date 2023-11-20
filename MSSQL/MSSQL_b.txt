@@ -63,7 +63,7 @@ create type PODetailType as Table
 	line_total_cost		decimal(10,2),
 	create_user			nvarchar(30)
 );
--------------------------------------------------------------------
+----------------------------------------------------------
 create procedure PROC_SaveShoppingCartOrder
 (
 	@master		PurchaseOrderType	READONLY,
@@ -112,7 +112,7 @@ begin
 	commit;
 end;
 
--------------------------------------------------------------------
+----------------------------------------------------------
 
 --a customer is using the web site
 --they are selecting items, and adding
@@ -169,4 +169,41 @@ use mydb;
 select * from PurchaseOrder
 
 select * from PODetailLines
--------------------------------------------------------------------
+___________________________________________________________
+
+https://www.youtube.com/watch?v=B7CVo-Vu7gU (SQL 2019 Tutorials | Output Clause in SQL | sql output clause | query result in sql)
+
+CREATE TABLE Emp (
+    IdEmp INT,
+    EmpName VARCHAR(MAX),
+    Location VARCHAR(MAX),
+    DeptId INT
+);
+
+insert into Emp values(101,'John','UK',10)
+
+insert into Emp (IdEmp, EmpName,Location,DeptId) 
+output inserted.*
+values(102,'Kate','USA',20)
+
+
+insert into Emp (IdEmp, EmpName,Location,DeptId) 
+output inserted.*
+values(103,'Raj','INDIA',20),
+(104,'Jeevan','INDIA',30)
+----------------------------------------------------------
+
+https://www.youtube.com/watch?v=KPn1xbYFVnY (SQL 2019 Tutorial| Delete with output clause in SQL | Delete rows in sql with output | output delete)
+
+delete from emp 
+output deleted.*
+where IdEmp=101
+
+----------------------------------------------------------
+https://www.youtube.com/watch?v=4inDcGZEMA0 (Update with output clause)
+
+update emp set Location='UAE' where IdEmp=101
+
+update emp set Location='UK'
+output inserted.IdEmp, deleted.Location 'Old Location', inserted.Location as 'New Location'
+___________________________________________________________
