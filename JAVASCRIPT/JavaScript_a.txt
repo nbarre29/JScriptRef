@@ -438,6 +438,63 @@ console.log(uniqueNumbers); //[ 1, 2, 3, 4, 5, 6 ]
 In this example, Array.from is used to create a new array from the Set, resulting in an array with only the unique values. Both the spread operator and Array.from are commonly used for this purpose, and you can choose the one that you find more readable or suitable for your coding style.
 ___________________________________________________________
 
+let abc = "Naveen Kumar";
+abc = abc.replace(/\s/g, "");
+console.log(abc); //NaveenKumar
+
+abc = abc.replace(/\s/g, "");: This line replaces all occurrences of whitespace characters (spaces, tabs, or newline characters) in the string abc with an empty string ("").
+The regular expression \s matches any whitespace character, and the g flag ensures that all occurrences are replaced.
+
+
+___________________________________________________________
+
+const pattern = /\d/g;
+const input = "123 456 789";
+const matches = input.match(pattern);
+console.log(matches);
+// Output: [ '1', '2', '3', '4', '5', '6', '7', '8', '9' ]
+
+
+In this example:
+
+/ is the delimiter that marks the beginning and end of the regular expression.
+\d is a pattern that matches any digit (equivalent to [0-9]).
+g is the global flag, indicating that the pattern should be applied globally (i.e apply for all occurrences of a pattern )
+Without the /g flag, the match method would only find the first match.
+
+/g commonly used with methods like match, replace, and exec in JavaScript.
+-----------------------------------------------------------
+
+using /g with replace:
+
+const input = "apple orange apple banana apple";
+const pattern = /apple/g;
+
+// Replace all occurrences of "apple" with "fruit"
+const modifiedString = input.replace(pattern, "fruit");
+
+console.log(modifiedString);
+// Output: "fruit orange fruit banana fruit"
+-----------------------------------------------------------
+
+Using /g with exec:
+
+const input = "apple orange apple banana apple";
+const pattern = /apple/g;
+
+let match;
+while ((match = pattern.exec(input)) !== null) {
+  console.log(`Found "${match[0]}" at index ${match.index}`);
+}
+
+In this example, the /g flag is used with the exec method to find all occurrences of the pattern "apple" in the input string. The exec method is called in a loop, and each match is printed along with its starting index and the output will be as below.
+
+Output:
+Found "apple" at index 0
+Found "apple" at index 13
+Found "apple" at index 26
+
+
 ___________________________________________________________
 
 -----------------------------------------------------------
