@@ -1,0 +1,54 @@
+-> task.controller.ts
+
+// Importing necessary modules
+import { Request, Response, NextFunction } from 'express';
+
+// Defining a public function named taskDetail, which is asynchronous
+public taskDetail = async (request: Request, response: Response, next: NextFunction) => {
+  try {
+    // ... (some code that is not provided in the snippet)
+  } catch (error) {
+    // If an error occurs, call the setErrorStatus method
+    this.setErrorStatus(error, next);
+  }
+};
+
+// Defining a method named setErrorStatus that takes an error and the next function as parameters
+setErrorStatus(error, next: NextFunction) {
+
+  // Extracting errorCode and taskId from the error message using a regular expression
+  const [errorCode, taskId]: string = error.message.match(/error:(\d+)-(\d+)/)?.slice(1) || '';
+
+  // Switching based on the extracted errorCode
+  switch (errorCode) {
+    // Cases can be added based on the specific error codes you expect
+    // For example:
+    case '404':
+      // Handle 404 error
+      break;
+    case '500':
+      // Handle 500 error
+      break;
+    default:
+      // Handle other cases or log the error
+  }
+}
+
+
+Explanation:
+1) Async Function (taskDetail):
+It uses the Express.js request (Request), response (Response), and NextFunction parameters.
+
+2) Error Handling:
+
+If an error occurs in the taskDetail function, it catches the error and calls the setErrorStatus method.
+
+3) Error Handling Method (setErrorStatus):
+
+setErrorStatus is a method that takes an error and the next function as parameters.
+It uses a regular expression to extract errorCode and taskId from the error message.
+It then uses a switch statement to handle different cases based on the extracted errorCode.
+The provided code includes a placeholder switch statement; you would need to add cases for specific error codes that you expect in your application.
+_______________________________________________________________________________________
+
+
