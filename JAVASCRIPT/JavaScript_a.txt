@@ -509,7 +509,131 @@ console.log(Array.from(map1.keys())); // [ 0, 1 ]
 
 ___________________________________________________________
 
+function sortByName(users) {
+  return users.sort((userA, userB) => {
+    if (userA.name < userB.name) return -1;
+    if (userA.name > userB.name) return 1;
+    return 0;
+  });
+}
+
+const users = [
+  { name: "Kyle" },
+  { name: "Sally" },
+  { name: "John" },
+  { name: "Bob" },
+  { name: "Allan" },
+];
+
+const sortUsers = sortByName(users);
+console.log(sortUsers);
+
+Output:
+[
+  { name: 'Allan' },
+  { name: 'Bob' },
+  { name: 'John' },
+  { name: 'Kyle' },
+  { name: 'Sally' }
+]
+
+-----------------------------------------------------------
+//Typescript
+
+interface User {
+  name: string;
+}
+
+function sortByName(users: User[]): User[] {
+  return users.sort((userA, userB) => {
+    if (userA.name < userB.name) return -1;
+    if (userA.name > userB.name) return 1;
+    return 0;
+  });
+}
+
+const users: User[] = [
+  { name: "Kyle" },
+  { name: "Sally" },
+  { name: "John" },
+  { name: "Bob" },
+  { name: "Allan" },
+];
+
+const sortUsers: User[] = sortByName(users);
+console.log(sortUsers);
+-----------------------------------------------------------
+//Typescript using arrow function
+interface User {
+  name: string;
+}
+
+const sortByName = (users: User[]): User[] =>
+  users.sort((userA, userB) =>
+    userA.name < userB.name ? -1 : userA.name > userB.name ? 1 : 0
+  );
+
+const users: User[] = [
+  { name: "Kyle" },
+  { name: "Sally" },
+  { name: "John" },
+  { name: "Bob" },
+  { name: "Allan" },
+];
+
+const sortUsers: User[] = sortByName(users);
+console.log(sortUsers);
+
+-----------------------------------------------------------
+
+class UserSorter {
+  private users: User[];
+
+  constructor(users: User[]) {
+    this.users = users;
+  }
+
+  sortByName(): User[] {
+    return this.users.sort((userA, userB) =>
+      userA.name < userB.name ? -1 : userA.name > userB.name ? 1 : 0
+    );
+  }
+}
+
+interface User {
+  name: string;
+}
+
+const users: User[] = [
+  { name: "Kyle" },
+  { name: "Sally" },
+  { name: "John" },
+  { name: "Bob" },
+  { name: "Allan" },
+];
+
+const userSorter = new UserSorter(users);
+const sortUsers: User[] = userSorter.sortByName();
+console.log(sortUsers);
+
+
+created a UserSorter class with a private users property.
+The class has a constructor that takes an array of User objects and initializes the users property.
+The sortByName method is part of the class and performs the sorting logic.
+An instance of the UserSorter class is created with the users array, and the sortByName method is called to get the sorted users.
+
 ___________________________________________________________
+
+const abc = undefined;
+if (abc == null) {
+  console.log("hello");   //hello
+}
+
+In JavaScript, the == operator performs type coercion, which means it converts the operands to the same type before making the comparison. When you use ==, null and undefined are considered equal without type-checking.
+
+To strictly check for both value and type equality, you should use the === operator:
+___________________________________________________________
+
 
 -----------------------------------------------------------
 
