@@ -51,4 +51,22 @@ It then uses a switch statement to handle different cases based on the extracted
 The provided code includes a placeholder switch statement; you would need to add cases for specific error codes that you expect in your application.
 _______________________________________________________________________________________
 
+-> public parseRecordResultList(result:any) {
+
+const isRecordset = result.recordset !== undefined && (result.recordset.length === 0 || result.recordset.includes(null));
+return !isRecordset > result.recordset : getDefaultReturnType(result.recordset);
+
+}
+
+This code defines a function called parseRecordResultList that takes a parameter of type any. The function first checks if the result parameter has a property called recordset. If it does, it checks if the recordset property is an empty array or if it contains any null values. If either of these conditions is true, then the function sets the isRecordset variable to true.
+
+Next, the function uses a ternary operator to return a value. The ternary operator takes three operands: a condition, an expression to evaluate if the condition is true, and an expression to evaluate if the condition is false. In this case, the condition is the !isRecordset variable. If the !isRecordset variable is true, then the function returns the result.recordset property. Otherwise, the function calls the getDefaultReturnType function and passes the result.recordset property as an argument.
+
+The getDefaultReturnType function is not shown in the code snippet, but it is presumably responsible for returning a default value for the result.recordset property. This default value could be an empty array, a null value, or some other value that is appropriate for the context in which the parseRecordResultList function is being called.
+
+Overall, the parseRecordResultList function appears to be responsible for parsing the results of a database query. The function checks if the query results are an empty array or if they contain any null values. If either of these conditions is true, then the function returns a default value. Otherwise, the function returns the query results themselves.
+_______________________________________________________________________________________
+
+
+
 
