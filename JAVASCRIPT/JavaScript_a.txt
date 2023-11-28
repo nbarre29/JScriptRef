@@ -632,6 +632,87 @@ if (abc == null) {
 In JavaScript, the == operator performs type coercion, which means it converts the operands to the same type before making the comparison. When you use ==, null and undefined are considered equal without type-checking.
 
 To strictly check for both value and type equality, you should use the === operator:
+
+In general, it is best to avoid using the == operator for equality comparisons in JavaScript. Instead, use the strict equality operator ===, which does not perform type coercion. The === operator will only return true if the two operands are equal in both value and type.
+___________________________________________________________
+
+-> For of iteration and destructuring
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
+
+const people = [
+  {
+    name: "Mike Smith",
+    family: {
+      mother: "Jane Smith",
+      father: "Harry Smith",
+      sister: "Samantha Smith",
+    },
+    age: 35,
+  },
+  {
+    name: "Tom Jones",
+    family: {
+      mother: "Norah Jones",
+      father: "Richard Jones",
+      brother: "Howard Jones",
+    },
+    age: 25,
+  },
+];
+
+for (const {
+  name: n,
+  family: { father: f },
+} of people) {
+  console.log(`Name: ${n}, Father: ${f}`);
+}
+
+Output:
+Name: Mike Smith, Father: Harry Smith
+Name: Tom Jones, Father: Richard Jones
+
+
+
+-----------------------------------------------------------
+//Typescript
+interface Person {
+  name: string;
+  family: {
+    mother?: string;
+    father?: string;
+    sister?: string;
+    brother?: string;
+  };
+  age: number;
+}
+
+const people: Person[] = [
+  {
+    name: "Mike Smith",
+    family: {
+      mother: "Jane Smith",
+      father: "Harry Smith",
+      sister: "Samantha Smith",
+    },
+    age: 35,
+  },
+  {
+    name: "Tom Jones",
+    family: {
+      mother: "Norah Jones",
+      father: "Richard Jones",
+      brother: "Howard Jones",
+    },
+    age: 25,
+  },
+];
+
+for (const {
+  name: n,
+  family: { father: f },
+} of people) {
+  console.log(`Name: ${n}, Father: ${f}`);
+}
 ___________________________________________________________
 
 
