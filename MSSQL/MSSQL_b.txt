@@ -283,3 +283,58 @@ VALUES
 
 select Id,COALESCE(FirstName,MiddleName,LastName) as Name from tblEmployee
 ___________________________________________________________
+-> Table variable:
+
+
+-> Example 1: Creating and populating a table variable
+
+ DECLARE @CustomerTable TABLE (
+  CustomerID INT PRIMARY KEY,
+  Name VARCHAR(50) NOT NULL,
+  Email VARCHAR(100) UNIQUE
+);
+
+INSERT INTO @CustomerTable (CustomerID, Name, Email)
+VALUES (1, 'John Doe', 'john.doe@example.com'),
+       (2, 'Jane Doe', 'jane.doe@example.com');
+
+SELECT * FROM @CustomerTable;
+
+
+Table variables are local to the specific batch, function, or stored procedure where they are declared. They don't exist as separate database objects like user-defined tables / table types. Therefore, you can only manipulate them within that specific execution context.
+
+Remember, table variables are convenient for temporary data within a single execution, while table types offer more flexibility and reusability but require additional upfront definition.
+
+----------------------------------------------------------
+-> Example 2: Using a table variable in a stored procedure
+
+example of a stored procedure in Microsoft SQL Server that creates a table variable, inserts data into it, and then selects the data from the table variable:
+
+-- Create a stored procedure
+CREATE PROCEDURE SampleStoredProcedure
+AS
+BEGIN
+    -- Declare a table variable
+    DECLARE @MyTableVariable TABLE
+    (
+        ID INT,
+        Name NVARCHAR(50)
+    );
+
+    -- Insert data into the table variable
+    INSERT INTO @MyTableVariable (ID, Name)
+    VALUES (1, 'John'), (2, 'Jane'), (3, 'Doe');
+
+    -- Select data from the table variable
+    SELECT * FROM @MyTableVariable;
+END;
+
+
+-- Execute the stored procedure
+EXEC SampleStoredProcedure;
+
+
+It's important to note that while table variables have some advantages, they are not always the best choice for every scenario. In some cases, temporary tables or table types might be more suitable, especially when dealing with larger result sets, the need for indexing, or the requirement for a broader scope. The choice between table variables and other temporary storage methods depends on the specific requirements and characteristics of your data and application.
+
+___________________________________________________________
+
