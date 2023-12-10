@@ -353,6 +353,13 @@ const example3: MyData = {
 processData(example1);
 processData(example2);
 processData(example3);
+
+
+In this example:
+The MyData interface defines an object with an optional property body that can be a string, null, or undefined.
+The processData function takes an object of type MyData and checks if the body property contains the character 'a' using optional chaining.
+Three examples (example1, example2, and example3) demonstrate how the processData function can be used with different data objects.
+
 _______________________________________________________________
 
 
