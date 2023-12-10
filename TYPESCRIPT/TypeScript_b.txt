@@ -330,4 +330,32 @@ f({ name: new Date() });
 console.log(f({ name: "Kyle" }));
 _______________________________________________________________
 
+interface MyData {
+  body?: string | null;
+}
+
+function processData(data: MyData): void {
+  // Optional chaining in TypeScript
+  if (data.body?.includes("a")) {
+    console.log('The string contains "a"');
+  } else {
+    console.log('The string does not contain "a" or is undefined/null');
+  }
+}
+
+// Example usage:
+const example1: MyData = { body: "example string" };
+const example2: MyData = { body: null };
+const example3: MyData = {
+  /* body is undefined */
+};
+
+processData(example1);
+processData(example2);
+processData(example3);
+_______________________________________________________________
+
+
+_______________________________________________________________
+
 ---------------------------------------------------------------
