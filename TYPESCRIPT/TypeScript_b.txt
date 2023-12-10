@@ -153,17 +153,181 @@ console.log(obj2); // Output: { a: 1, b: 2, c: 3, d: 4 }
 
 _______________________________________________________________
 
+-> Examples of Array.reduce() 
+
+a) Summing all the elements in an array:
+
+const numbers: number[] = [1, 2, 3, 4, 5];
+const sum: number = numbers.reduce((acc: number, num: number) => acc + num, 0);
+console.log(sum); // Output: 15
 
 
+b) Finding the maximum element in an array:
+
+const numbers: number[] = [1, 2, 3, 4, 5];
+const max: number = numbers.reduce(
+  (max: number, num: number) => Math.max(max, num),
+  0
+);
+console.log(max); // Output: 5
 
 
+c) Filtering an array based on a condition:
+
+const numbers: number[] = [1, 2, 3, 4, 5, 6, 7, 8];
+const evenNumbers: number[] = numbers.reduce((acc: number[], num: number) => {
+  if (num % 2 === 0) {
+    acc.push(num);
+  }
+  return acc;
+}, []);
+console.log(evenNumbers); // [ 2, 4, 6, 8 ]
 
 
+d) Creating an object from an array of objects:
+
+interface User {
+  name: string;
+  age: number;
+}
+
+const users: User[] = [
+  { name: "John", age: 30 },
+  { name: "Jane", age: 25 },
+  { name: "Mike", age: 35 },
+];
+const userMap: Record<string, number> = users.reduce(
+  (acc: Record<string, number>, user: User) => {
+    acc[user.name] = user.age;
+    return acc;
+  },
+  {}
+);
+console.log(userMap); // { John: 30, Jane: 25, Mike: 35 }
 
 
+e) Flattening a nested array:
+
+const nestedArray: number[][] = [
+  [1, 2],
+  [3, 4],
+  [5, 6],
+];
+const flatArray: number[] = nestedArray.reduce(
+  (acc: number[], arr: number[]) => acc.concat(arr),
+  []
+);
+console.log(flatArray); // Output: [1, 2, 3, 4, 5, 6]
 
 
+f) count the occurrences of each word in an array.
+
+const words: string[] = [
+  "apple",
+  "orange",
+  "banana",
+  "apple",
+  "orange",
+  "apple",
+];
+
+const wordCount: Record<string, number> = words.reduce((acc, word) => {
+  acc[word] = (acc[word] || 0) + 1;
+  return acc;
+}, {} as Record<string, number>); // Use type assertion here
+
+console.log(wordCount); // { apple: 3, orange: 2, banana: 1 }
+
+
+Explanation of the statement: acc[word] = (acc[word] || 0) + 1;
+Here, acc is the accumulator, which is an object of type Record<string, number>. word is the current element being processed in the words array during each iteration of the reduce method.
+
+acc[word] refers to the current count of the specific word in the accumulator (acc). It's using the current word as the key to access a property in the acc object.
+
+(acc[word] || 0) checks if the current word has been encountered before. If acc[word] is truthy (i.e., it exists), it takes that value; otherwise, it defaults to 0. This is a common pattern to handle the case when the word is encountered for the first time, ensuring that if acc[word] is undefined or null, it defaults to 0.
+
++ 1 increments the count by 1. It adds 1 to the value obtained in the previous step. This step ensures that each time the word is encountered, its count is incremented.
+
+So, in summary, this line of code is updating the count of each word in the acc object. If the word has been encountered before, it increments the existing count by 1; otherwise, it starts a new count at 1. The result is a record of word counts in the acc object, where each word is a key, and the associated value is the count of occurrences.
+---------------------------------------------------------------
+interface WordCount {
+  [key: string]: number;
+}
+const words: string[] = [
+  "apple",
+  "orange",
+  "banana",
+  "apple",
+  "orange",
+  "apple",
+];
+
+const wordCount: WordCount = words.reduce((acc: WordCount, word: string) => {
+  acc[word] = (acc[word] || 0) + 1;
+  return acc;
+}, {});
+
+console.log(wordCount); // { apple: 3, orange: 2, banana: 1 }
+---------------------------------------------------------------
+//updated the above code to use Record
+const words: string[] = [
+  "apple",
+  "orange",
+  "banana",
+  "apple",
+  "orange",
+  "apple",
+];
+
+const wordCount: Record<string, number> = words.reduce(
+  (acc: Record<string, number>, word: string) => {
+    acc[word] = (acc[word] || 0) + 1;
+    return acc;
+  },
+  {}
+);
+
+console.log(wordCount); // { apple: 3, orange: 2, banana: 1 }
 _______________________________________________________________
+
+-> https://www.youtube.com/watch?v=_e4m4DjnBCE (Stop Using {} In TypeScript)
+
+type Param = {};
+
+function f(obj: Param): Param {
+  return obj;
+}
+
+f({ name: "Kyle" });
+f(new Date());
+
+console.log(f({ name: "Kyle" }));
+console.log(f(new Date()));
+---------------------------------------------------------------
+
+type Param = Record<string, unknown>;
+
+function f(obj: Param): Param {
+  return obj;
+}
+
+f({ name: "Kyle" });
+f(new Date());
+
+console.log(f({ name: "Kyle" }));
+console.log(f(new Date()));
+
+---------------------------------------------------------------
+
+type Param = { [index: string]: unknown };
+
+function f(obj: Param): Param {
+  return obj;
+}
+
+f({ name: new Date() });
+
+console.log(f({ name: "Kyle" }));
 _______________________________________________________________
 
 ---------------------------------------------------------------
