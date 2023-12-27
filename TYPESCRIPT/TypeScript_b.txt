@@ -150,7 +150,58 @@ const obj1: { a: number; b: number } = { a: 1, b: 2 };
 const obj2: { a: number; b: number; c: number; d: number } = { ...obj1, c: 3, d: 4 };
 console.log(obj2); // Output: { a: 1, b: 2, c: 3, d: 4 }
 
+_______________________________________________________________
+-> The rest operator is used to represent an indefinite number of arguments as an array. It is typically used in function parameters to gather the remaining parameters into an array.
 
+function sum(...numbers: number[]): number {
+  return numbers.reduce((total, num) => total + num, 0);
+}
+
+const result = sum(1, 2, 3, 4, 5);
+console.log(result); // Output: 15
+
+
+-> The spread operator is used to spread elements of an array or object. It can be used in various contexts, such as spreading elements into a new array, merging arrays, or creating a shallow copy of an object.
+
+// Spread elements of an array
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1, 4, 5];
+console.log(arr2); // Output: [1, 2, 3, 4, 5]
+
+// Spread elements of an object
+const obj1 = { a: 1, b: 2 };
+const obj2 = { ...obj1, c: 3 };
+console.log(obj2); // Output: { a: 1, b: 2, c: 3 }
+
+
+-> Differences
+Context:
+Rest operator: Typically used in function parameters to collect parameters into an array.
+Spread operator: Used to spread elements of an array or object.
+
+Usage:
+Rest operator: Used in function parameters.
+Spread operator: Used in array literals, object literals, and function arguments.
+
+Effect:
+Rest operator: Gathers elements into an array.
+Spread operator: Spreads elements from an array or object.
+
+
+-> Combined Example:
+
+// Rest operator in function parameters
+function exampleFunction(firstParam: string, ...restParams: number[]): void {
+  console.log(firstParam); // one
+  console.log(restParams); // [2, 3, 4]
+}
+
+// Spread operator in function arguments
+const numbers = [2, 3, 4];
+exampleFunction("one", ...numbers);
+
+
+In this combined example, the rest operator is used in the function parameter to collect the remaining parameters into an array, and the spread operator is used in the function argument to spread the elements of the numbers array as individual arguments.
 _______________________________________________________________
 
 -> Examples of Array.reduce() 
