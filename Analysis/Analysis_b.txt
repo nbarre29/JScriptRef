@@ -117,6 +117,59 @@ In summary, loanSubmissionMap is a private object in a TypeScript class, and it 
 
 _______________________________________________________________________________________
 
+const data = {
+  loadId: 13,
+  customerLoanNumber: '1234',
+  transactionTypeId: 1,
+};
+
+console.log(data);
+// delete data.transactionTypeId;   
+
+delete data['transactionTypeId'];
+
+console.log(data);
+
+
+In JavaScript, when you want to delete a property from an object, you can use the delete operator followed by the object's name and the property name you want to delete. The property name is provided as a string.
+
+
+delete data['transactionTypeId'];
+The square brackets [] are used for property access in JavaScript, and in this context, they are used to specify the property (transactionTypeId) that needs to be deleted from the data object.
+
+Alternatively, you could also use dot notation for property access:
+delete data.transactionTypeId;
+
+Both notations are valid, but there are scenarios where square bracket notation is necessary. For example, if the property name contains special characters, starts with a number, or is a variable, square bracket notation is preferred. In your case, using dot notation (delete data.transactionTypeId;) would work just as well.
+
+_______________________________________________________________________________________
+
+To prevent Prettier from automatically converting single quotes to double quotes in VSCode, you can configure Prettier by creating a configuration file in your project. Follow these steps:
+
+Create a .prettierrc file in the root of your project (if it doesn't already exist).
+Open the .prettierrc file and add the following configuration:
+
+{
+  "singleQuote": true
+}
+
+This configuration tells Prettier to use single quotes instead of double quotes.
+
+_______________________________________________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
