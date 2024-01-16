@@ -82,3 +82,46 @@ describe('performTransaction', () => {
 
 This test case uses Jest's mocking capabilities to mock the mssql module, providing a mock implementation for transactions and pools. It then tests whether the performTransaction function correctly rolls back the transaction in case of an error.
 
+----------------------------------------------------------------------------------
+
+const sql = require('mssql');
+const { Pool } = require('mssql');
+
+jest.mock('mssql'); // Mock the mssql module for testing
+
+describe('node-mssql transaction rollback', () => {
+  let pool;
+
+  beforeEach(() => {
+    pool = new Pool({
+      user: 'your_username',
+      password: 'your_password',
+      server: 'your_server_name',
+      database: 'your_database_name',
+      options: {
+        encrypt: true, // Ensure encryption for security
+      },
+    });
+  });
+
+  afterEach(() => {
+    // Close the pool after each test
+    pool.close();
+  });
+
+  test('should rollback transaction on error', async () => {
+    const request = new sql.Request(pool);
+    try {
+      await request.transaction(async (trx) => {
+        await trx.query('INSERT INTO some_table (value) VALUES (1)'); // Intentionally incorrect query
+        throw new Error('Simulated error'); // Simulate an error to trigger rollback
+      });
+      fail('Transaction should have been rolled back');
+    } catch (error) {
+      // Assert that rollback was called on the transaction
+      expect(trx.rollback).toHaveBeenCalled();
+    }
+  });
+});
+
+
