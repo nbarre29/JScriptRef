@@ -1,0 +1,84 @@
+write a jest test case to handle the node-mssql client transactin rollback
+
+Certainly! Writing a Jest test case for handling a Node.js mssql client transaction rollback involves creating a mock environment, simulating a failed transaction, and asserting that the rollback is executed. Here's an example:
+
+Assuming you have a function that performs a transaction using the mssql client, let's call it performTransaction:
+
+// database.js
+const sql = require('mssql');
+
+async function performTransaction() {
+  try {
+    const pool = await sql.connect(/* your database configuration */);
+    const transaction = new sql.Transaction(pool);
+
+    await transaction.begin();
+
+    // Your transaction logic here
+
+    // Simulate a failure
+    throw new Error('Simulated error');
+
+    await transaction.commit();
+  } catch (error) {
+    // Rollback on error
+    if (transaction) {
+      await transaction.rollback();
+    }
+    throw error;
+  } finally {
+    sql.close();
+  }
+}
+
+module.exports = { performTransaction };
+
+
+Now, let's write a Jest test case for this:
+
+
+// __tests__/database.test.js
+const sql = require('mssql');
+const { performTransaction } = require('../path/to/database');
+
+jest.mock('mssql', () => {
+  const mockTransaction = {
+    begin: jest.fn(),
+    commit: jest.fn(),
+    rollback: jest.fn(),
+  };
+
+  const mockPool = {
+    connect: jest.fn(() => Promise.resolve(mockTransaction)),
+  };
+
+  return {
+    connect: jest.fn(() => Promise.resolve(mockPool)),
+    close: jest.fn(),
+  };
+});
+
+describe('performTransaction', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should rollback the transaction on error', async () => {
+    // Arrange
+    const simulatedError = new Error('Simulated error');
+    jest.spyOn(sql, 'close').mockImplementation(() => {});
+
+    // Act & Assert
+    await expect(performTransaction()).rejects.toThrow(simulatedError);
+
+    // Assert
+    expect(sql.connect).toHaveBeenCalled();
+    expect(sql.close).toHaveBeenCalled();
+    expect(sql.connect.mock.instances[0].beginTransaction).toHaveBeenCalled();
+    expect(sql.connect.mock.instances[0].rollback).toHaveBeenCalled();
+    expect(sql.connect.mock.instances[0].commit).not.toHaveBeenCalled();
+  });
+});
+
+This test case uses Jest's mocking capabilities to mock the mssql module, providing a mock implementation for transactions and pools. It then tests whether the performTransaction function correctly rolls back the transaction in case of an error.
+
