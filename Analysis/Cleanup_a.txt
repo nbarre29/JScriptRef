@@ -1,127 +1,69 @@
-write a jest test case to handle the node-mssql client transactin rollback
+If you're moving the logic from a stored procedure to a Node.js repository layer and want to replace the use of a temp table with an array of objects, here is how you can structure your repository logic:
 
-Certainly! Writing a Jest test case for handling a Node.js mssql client transaction rollback involves creating a mock environment, simulating a failed transaction, and asserting that the rollback is executed. Here's an example:
 
-Assuming you have a function that performs a transaction using the mssql client, let's call it performTransaction:
+import * as sql from 'mssql';
 
-// database.js
-const sql = require('mssql');
+const config: sql.config = {
+  user: 'your_username',
+  password: 'your_password',
+  server: 'your_server',
+  database: 'your_database',
+  options: {
+    encrypt: true, // Use this if you're on Windows Azure
+  },
+};
 
-async function performTransaction() {
+interface DataSourceObject {
+  DataSourceTypeID: number;
+  DatasourceType: string;
+  DocumentName: string;
+  VersionType: string;
+}
+
+const arrayOfObjects: DataSourceObject[] = [
+  { DataSourceTypeID: 1, DatasourceType: 'Type1', DocumentName: 'Doc1', VersionType: 'Version1' },
+  { DataSourceTypeID: 2, DatasourceType: 'Type2', DocumentName: 'Doc2', VersionType: 'Version2' },
+  // Add more objects as needed
+];
+
+async function insertArrayOfObjects() {
+  const pool = new sql.ConnectionPool(config);
+  await pool.connect();
+
   try {
-    const pool = await sql.connect(/* your database configuration */);
     const transaction = new sql.Transaction(pool);
-
     await transaction.begin();
 
-    // Your transaction logic here
+    const request = new sql.Request(transaction);
 
-    // Simulate a failure
-    throw new Error('Simulated error');
-
-    await transaction.commit();
-  } catch (error) {
-    // Rollback on error
-    if (transaction) {
-      await transaction.rollback();
+    // Insert data from the array into the target table
+    for (const obj of arrayOfObjects) {
+      await request.query(`
+        INSERT INTO YourTargetTable (DataSourceTypeID, DatasourceType, DocumentName, VersionType)
+        VALUES (${obj.DataSourceTypeID}, '${obj.DatasourceType}', '${obj.DocumentName}', '${obj.VersionType}')
+      `);
     }
-    throw error;
+
+    // Commit the transaction
+    await transaction.commit();
+  } catch (err) {
+    console.error('Error:', err);
+    // Rollback the transaction in case of an error
+    await transaction.rollback();
   } finally {
-    sql.close();
+    pool.close();
   }
 }
 
-module.exports = { performTransaction };
-
-
-Now, let's write a Jest test case for this:
-
-
-// __tests__/database.test.js
-const sql = require('mssql');
-const { performTransaction } = require('../path/to/database');
-
-jest.mock('mssql', () => {
-  const mockTransaction = {
-    begin: jest.fn(),
-    commit: jest.fn(),
-    rollback: jest.fn(),
-  };
-
-  const mockPool = {
-    connect: jest.fn(() => Promise.resolve(mockTransaction)),
-  };
-
-  return {
-    connect: jest.fn(() => Promise.resolve(mockPool)),
-    close: jest.fn(),
-  };
-});
-
-describe('performTransaction', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
+// Example usage
+insertArrayOfObjects()
+  .then(() => {
+    console.log('Array of objects inserted successfully');
+  })
+  .catch(err => {
+    console.error('Error:', err);
   });
 
-  it('should rollback the transaction on error', async () => {
-    // Arrange
-    const simulatedError = new Error('Simulated error');
-    jest.spyOn(sql, 'close').mockImplementation(() => {});
-
-    // Act & Assert
-    await expect(performTransaction()).rejects.toThrow(simulatedError);
-
-    // Assert
-    expect(sql.connect).toHaveBeenCalled();
-    expect(sql.close).toHaveBeenCalled();
-    expect(sql.connect.mock.instances[0].beginTransaction).toHaveBeenCalled();
-    expect(sql.connect.mock.instances[0].rollback).toHaveBeenCalled();
-    expect(sql.connect.mock.instances[0].commit).not.toHaveBeenCalled();
-  });
-});
-
-This test case uses Jest's mocking capabilities to mock the mssql module, providing a mock implementation for transactions and pools. It then tests whether the performTransaction function correctly rolls back the transaction in case of an error.
-
-----------------------------------------------------------------------------------
-
-const sql = require('mssql');
-const { Pool } = require('mssql');
-
-jest.mock('mssql'); // Mock the mssql module for testing
-
-describe('node-mssql transaction rollback', () => {
-  let pool;
-
-  beforeEach(() => {
-    pool = new Pool({
-      user: 'your_username',
-      password: 'your_password',
-      server: 'your_server_name',
-      database: 'your_database_name',
-      options: {
-        encrypt: true, // Ensure encryption for security
-      },
-    });
-  });
-
-  afterEach(() => {
-    // Close the pool after each test
-    pool.close();
-  });
-
-  test('should rollback transaction on error', async () => {
-    const request = new sql.Request(pool);
-    try {
-      await request.transaction(async (trx) => {
-        await trx.query('INSERT INTO some_table (value) VALUES (1)'); // Intentionally incorrect query
-        throw new Error('Simulated error'); // Simulate an error to trigger rollback
-      });
-      fail('Transaction should have been rolled back');
-    } catch (error) {
-      // Assert that rollback was called on the transaction
-      expect(trx.rollback).toHaveBeenCalled();
-    }
-  });
-});
 
 
+Replace 'YourTargetTable' with the actual name of the table where you want to insert the data. This code uses a transaction to ensure that either all the insertions succeed, or none of them do. Adjust the code based on your specific needs and database schema.
