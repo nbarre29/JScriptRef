@@ -134,6 +134,17 @@ const productNames = filteredProducts.map((product) => product.name);
 // Print the array of product names.
 console.log(productNames); // [ 'Product A', 'Product B' ]
 ---------------------------------------------------------------
+We can simplify the filter function from above code by combining the conditions into a single return statement. This approach makes the logic clearer and more concise:
+This version of the filter function directly checks if the product's price is less than or equal to 30 and if the product's category is either 'Electronics' or 'Food' in a single return statement.
+
+// Filter the products based on price and category.
+const filteredProducts = products.filter(
+  (product) =>
+    product.price <= 30 &&
+    (product.category === 'Electronics' || product.category === 'Food')
+);
+
+---------------------------------------------------------------
 //convert the code into an exportable class module and write a Jest test case,
 // Utils.ts
 
