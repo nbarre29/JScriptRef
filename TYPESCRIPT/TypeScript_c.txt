@@ -117,7 +117,60 @@ const employee: Employee = {
 employee.name = 'Jessica';
 
 console.log(employee);
+
 _______________________________________________________________________________________
+https://www.youtube.com/watch?v=gieEQFIfgYc&t=8730s
+https://github.com/gitdagray/typescript-course
+
+//2:25:00
+interface Musician {
+  name: string;
+  instrument: string;
+  play(action: string): string;
+}
+
+class Guitarist implements Musician {
+  name: string;
+  instrument: string;
+  constructor(name: string, instrument: string) {
+    this.name = name;
+    this.instrument = instrument;
+  }
+  play(action: string) {
+    return `${this.name} ${action} the ${this.instrument}`;
+  }
+}
+
+const Page = new Guitarist('Jimmy', 'guitar');
+console.log(Page.play('strums')); //Jimmy strums the guitar
+
+---------------------------------------------------------------------------
+//2:30:00
+class Peeps {
+  static count: number = 0;
+
+  static get getCount(): number {
+    return Peeps.count;
+  }
+
+  public id: number;
+
+  constructor(public name: string) {
+    this.name = name;
+    this.id = ++Peeps.count;
+  }
+}
+
+const John = new Peeps('John');
+const Steve = new Peeps('Steve');
+const Amy = new Peeps('Amy');
+
+console.log(Amy.id); //3
+console.log(Steve.id); //2
+console.log(John.id); //1
+console.log(Peeps.count); //3
+_______________________________________________________________________________________
+
 
 
 
