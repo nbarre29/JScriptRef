@@ -1,0 +1,123 @@
+https://www.youtube.com/watch?v=3mDny9XAgic  (21:40)
+
+interface UserInterface {
+  id: number;
+  name: string;
+  age?: number;
+  greet(message: string): void;
+}
+
+const user: UserInterface = {
+  id: 2,
+  name: 'John',
+  greet(message) {
+    console.log(message);
+  },
+};
+
+user.greet('Hello');  //Hello
+
+_______________________________________________________________________________________
+https://www.youtube.com/watch?v=3mDny9XAgic  (29:50)
+interface BusinessPartner {
+  name: string;
+  creditScore: number;
+}
+
+interface UserIdentity {
+  id: number;
+  email: string;
+}
+
+type Employee = BusinessPartner & UserIdentity;
+
+const signContract = (employee: Employee): void => {
+  console.log(
+    'Contract signed by ' + employee.name + ' with email: ' + employee.email
+  );
+};
+
+signContract({
+  name: 'Naveen',
+  creditScore: 800,
+  id: 34,
+  email: 'naveen@gmail.com',
+}); //Contract signed by Naveen with email: naveen@gmail.com
+
+_______________________________________________________________________________________
+
+https://www.youtube.com/watch?v=3mDny9XAgic  (32:50)
+
+enum LoginError {
+  Unauthorized = 'unauthorized',
+  NoUser = 'nouser',
+  WrongCredentials = 'wrongcredentials',
+  Internal = 'internal',
+}
+
+const printErrorMsg = (error: LoginError) => {
+  if (error === LoginError.Unauthorized) {
+    console.log('User not authorized');
+  } else if (error === LoginError.NoUser) {
+    console.log('No user was found with that username.');
+  } else if (error === LoginError.WrongCredentials) {
+    console.log('Wrong username/password combination');
+  } else {
+    console.log('Internal Error.');
+  }
+};
+
+printErrorMsg(LoginError.WrongCredentials);
+
+_______________________________________________________________________________________
+https://www.youtube.com/watch?v=3mDny9XAgic  (38:00)
+
+class StorageContainer<T> {
+  private contents: T[];
+
+  constructor() {
+    this.contents = [];
+  }
+
+  addItem(item: T): void {
+    this.contents.push(item);
+  }
+
+  getItem(idx: number): T | undefined {
+    return this.contents[idx];
+  }
+}
+
+const userNames = new StorageContainer<string>();
+userNames.addItem('naveen');
+userNames.addItem('kumar');
+console.log(userNames.getItem(0));
+
+const friendsCount = new StorageContainer<number>();
+friendsCount.addItem(23);
+friendsCount.addItem(46);
+console.log(friendsCount.getItem(0));
+
+_______________________________________________________________________________________
+https://www.youtube.com/watch?v=3mDny9XAgic  (44:20)
+interface Employee {
+  readonly employeeId: number;
+  readonly startDate: Date;
+  name: string;
+  department: string;
+}
+
+const employee: Employee = {
+  employeeId: 123,
+  startDate: new Date(),
+  name: 'Pedro',
+  department: 'Finance',
+};
+
+employee.name = 'Jessica';
+
+console.log(employee);
+_______________________________________________________________________________________
+
+
+
