@@ -17,6 +17,56 @@ const user: UserInterface = {
 
 user.greet('Hello');  //Hello
 
+---------------------------------------------------------------------------------------
+//use arrow functin in greet method
+
+interface UserInterface {
+  id: number;
+  name: string;
+  age?: number;
+  greet: (message: string) => void;
+}
+
+const user: UserInterface = {
+  id: 2,
+  name: 'John',
+  greet: (message) => {
+    console.log(message);
+  },
+};
+
+user.greet('Hello'); //Hello
+
+console.log(user.name);
+---------------------------------------------------------------------------------------
+is greet in above code function or method?
+Property greet: The greet property is a function that is a part of the user object.
+Because greet is a function that is a property of the user object, it is considered a method of the user object.
+---------------------------------------------------------------------------------------	
+-> In JavaScript, the terms "function" and "method" are related but not identical.
+
+-> A function is a standalone block of code designed to perform a particular task. It is not associated with any object.
+
+Example of a function:
+
+function greet(message: string) {
+  console.log(message);
+}
+greet('Hello'); //  Hello
+
+-> A method is a function that is a property of an object. Methods are called on objects and can operate on data that belongs to the object.
+
+Example of a method:
+
+const user = {
+  name: 'John',
+  greet: function (message: string) {
+    console.log(message);
+  },
+};
+user.greet('Hello'); // Hello
+
+
 _______________________________________________________________________________________
 https://www.youtube.com/watch?v=3mDny9XAgic  (29:50)
 interface BusinessPartner {
@@ -170,7 +220,53 @@ console.log(Steve.id); //2
 console.log(John.id); //1
 console.log(Peeps.count); //3
 _______________________________________________________________________________________
+https://www.youtube.com/watch?v=lPoFNPTRgnk  (Practical Typescript 5 - Type Guards) (3:00)
 
+type ValueType = string | number | boolean;
 
+let value: ValueType;
+const random = Math.random();
+value = random < 0.33 ? 'Hello' : random < 0.66 ? 123.456 : true;
 
+function checkValue(value: ValueType): void {
+  if (typeof value === 'string') {
+    console.log(value.toLocaleLowerCase());
+    return;
+  }
+
+  if (typeof value === 'number') {
+    console.log(value.toFixed(2));
+    return;
+  }
+  console.log(`boolean:  ${value}`);
+}
+
+checkValue(value);
+_______________________________________________________________________________________
+https://www.youtube.com/watch?v=gieEQFIfgYc&t=8730s  (Generics: 3:01:52)
+
+const stringEcho = (arg: string): string => arg;
+
+const inputString = 'Hello, World!';
+const echoedString = stringEcho(inputString);
+
+console.log(echoedString); // Output: Hello, World!
+---------------------------------------------------------------------------------------
+
+const echo = <T>(arg: T): T => arg;
+
+const inputString = 'Hello, World!';
+const echoedString = echo(inputString);
+
+console.log(echoedString); // Hello, World!
+
+---------------------------------------------------------------------------------------
+const echo = <T>(arg: T): T => arg;
+
+const inputNumber = 42;
+const echoedNumber = echo(inputNumber);
+
+console.log(echoedNumber); // 42
+
+_______________________________________________________________________________________
 
