@@ -16,9 +16,28 @@ const user: UserInterface = {
 };
 
 user.greet('Hello');  //Hello
+---------------------------------------------------------------------------------------
+
+interface UserInterface {
+  id: number;
+  name: string;
+  age?: number;
+  greet: (message: string) => void;
+}
+
+const user: UserInterface = {
+  id: 2,
+  name: 'John',
+  greet: (message) => {
+    console.log(message);
+  },
+};
+
+user.greet('Hello'); //Hello
+
 
 ---------------------------------------------------------------------------------------
-//use arrow functin in greet method
+//use arrow function in greet method
 
 interface UserInterface {
   id: number;
@@ -65,8 +84,28 @@ const user = {
   },
 };
 user.greet('Hello'); // Hello
+---------------------------------------------------------------------------------------
+const user = {
+  name: 'John',
+  greet: (message: string) => {
+    console.log(message);
+  },
+};
+user.greet('Hello'); // Hello
+---------------------------------------------------------------------------------------
+interface User {
+  name: string;
+  greet: (message: string) => void;
+}
 
+const user: User = {
+  name: 'John',
+  greet: (message: string) => {
+    console.log(message);
+  },
+};
 
+user.greet('Hello'); // Hello
 _______________________________________________________________________________________
 https://www.youtube.com/watch?v=3mDny9XAgic  (29:50)
 interface BusinessPartner {
