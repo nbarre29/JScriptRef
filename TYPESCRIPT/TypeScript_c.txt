@@ -16,25 +16,6 @@ const user: UserInterface = {
 };
 
 user.greet('Hello');  //Hello
----------------------------------------------------------------------------------------
-
-interface UserInterface {
-  id: number;
-  name: string;
-  age?: number;
-  greet: (message: string) => void;
-}
-
-const user: UserInterface = {
-  id: 2,
-  name: 'John',
-  greet: (message) => {
-    console.log(message);
-  },
-};
-
-user.greet('Hello'); //Hello
-
 
 ---------------------------------------------------------------------------------------
 //use arrow function in greet method
