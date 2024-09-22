@@ -237,8 +237,33 @@ console.log(b);  //20
 
 console.log(rest);   // [30, 40, 50]
 
-_____________________________________________________________________________________
+---------------------------------------------------------------------------------
+->
+2. Rest Operator in Array Destructuring
+The rest operator can be used to collect the remaining elements of an array into a new array.
 
+const [first, second, ...rest] = [1, 2, 3, 4, 5];
+console.log(first); // 1
+console.log(second); // 2
+console.log(rest); // [3, 4, 5]
+---------------------------------------------------------------------------------
+
+3. Rest Operator in Object Destructuring
+The rest operator can be used to collect the remaining properties of an object into a new object.
+
+const person = {
+  name: 'Alice',
+  age: 25,
+  city: 'New York',
+  country: 'USA',
+};
+
+const { name, age, ...rest } = person;
+console.log(name); // Alice
+console.log(age); // 25
+console.log(rest); // { city: 'New York', country: 'USA' }
+
+_____________________________________________________________________________________
 
 
 
