@@ -160,7 +160,43 @@ function createPerson(name, age, city) {
 const objFactoryFunction = createPerson('John', 30, 'New York');
 console.log(objFactoryFunction); // { name: 'John', age: 30, city: 'New York' }
 ---------------------------------------------------------------------------------
+6.1 Typescript
 
+interface Person {
+  name: string;
+  age: number;
+  city: string;
+}
+
+function createPerson(name: string, age: number, city: string): Person {
+  return {
+    name,
+    age,
+    city,
+  };
+}
+
+const objFactoryFunction = createPerson('John', 30, 'New York');
+console.log(objFactoryFunction); // { name: 'John', age: 30, city: 'New York' }
+---------------------------------------------------------------------------------
+6.2 Typescript + Arrow function
+
+interface Person {
+  name: string;
+  age: number;
+  city: string;
+}
+
+const createPerson = (name: string, age: number, city: string): Person => ({
+  name,
+  age,
+  city,
+});
+
+const objFactoryFunction = createPerson('John', 30, 'New York');
+console.log(objFactoryFunction); // { name: 'John', age: 30, city: 'New York' }
+
+---------------------------------------------------------------------------------
 7. Using Object.assign()
 Creating an object by copying properties from one or more source objects.
 
