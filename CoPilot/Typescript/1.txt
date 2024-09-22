@@ -1,0 +1,11 @@
+-> If the greeting parameter is provided, it will be used; otherwise, the default value 'Hello' is used. This is achieved using the logical OR (||) operator, which returns the first truthy value it encounters. The constructed greeting message is then returned by the function.
+
+const greet = (name: string, greeting?: string): string => {
+  return `${greeting || 'Hello'}, ${name}!`;
+};
+console.log(greet('John')); // Output: 'Hello, John!'
+console.log(greet('John', 'Hi')); // Output: 'Hi, John!'
+_____________________________________________________________________________________
+
+
+
