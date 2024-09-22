@@ -109,7 +109,7 @@ const person = {
   },
 };
 
-// Destructuring assignment with renamed variables
+// Destructuring assignment
 const {
   name,    // Cannot redeclare block-scoped variable 'name'.   lib.dom.d.ts(27609, 15): 'name' was also declared here.
   age,
