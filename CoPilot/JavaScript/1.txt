@@ -1,3 +1,7 @@
+( Parenthesis )
+{ Braces }
+[ Brackets ]
+_____________________________________________________________________________________
 -> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
 The JSON.stringify() static method converts a JavaScript value to a JSON string, optionally replacing values if a replacer function is specified or optionally including only the specified properties if a replacer array is specified.
 ---------------------------------------------------------------------------------
@@ -198,6 +202,40 @@ const map = new Map([
 
 const objFromMap = Object.fromEntries(map);
 console.log(objFromMap); // { name: 'John', age: 30, city: 'New York' }
+
+_____________________________________________________________________________________
+
+-> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
+The destructuring assignment syntax is a JavaScript expression that makes it possible to unpack values from arrays, or properties from objects, into distinct variables.
+---------------------------------------------------------------------------------
+-> A simple example demonstrating destructuring assignment to unpack properties from an object
+
+const book = {
+  title: 'The Great Gatsby',
+  author: 'F. Scott Fitzgerald',
+  year: 1925,
+  genre: 'Novel',
+};
+
+// Destructuring assignment to unpack properties from the book object
+const { title, author, year, genre } = book;
+
+console.log(title); // The Great Gatsby
+console.log(author); // F. Scott Fitzgerald
+console.log(year); // 1925
+console.log(genre); // Novel
+---------------------------------------------------------------------------------
+-> A simple example demonstrating destructuring assignment to unpack properties from an array
+
+let a, b, rest;
+[a, b] = [10, 20];
+
+console.log(a); //10
+console.log(b);  //20
+
+[a, b, ...rest] = [10, 20, 30, 40, 50];
+
+console.log(rest);   // [30, 40, 50]
 
 _____________________________________________________________________________________
 

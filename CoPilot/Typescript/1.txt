@@ -7,5 +7,142 @@ console.log(greet('John')); // Output: 'Hello, John!'
 console.log(greet('John', 'Hi')); // Output: 'Hi, John!'
 _____________________________________________________________________________________
 
+-> 
+interface Address {
+  doorNumber?: string;
+  streetName?: string;
+  city: string;
+  country?: string;
+}
+
+interface User {
+  name: string;
+  address?: Address;
+  getFullAddress?: () => string; // Add a method to the interface
+}
+
+const getUserCity = (user: User): string => {
+  return user.address?.city || 'Unknown city';
+};
+
+// Provide a user with a city and implement the method
+const user: User = {
+  name: 'John Doe',
+  address: {
+    doorNumber: '123',
+    streetName: 'Main St',
+    city: 'New York',
+    country: 'USA',
+  },
+  getFullAddress: function (): string {
+    const { doorNumber, streetName, city, country } = this.address || {};
+    return `${doorNumber ? doorNumber + ', ' : ''}${
+      streetName ? streetName + ', ' : ''
+    }${city}, ${country || ''}`
+      .trim()
+      .replace(/,\s*$/, '');
+  },
+};
+
+console.log(getUserCity(user)); // New York
+console.log(user.getFullAddress?.()); // 123, Main St, New York, USA
+---------------------------------------------------------------------------------
+
+-> To implement the above functionality using classes, you can define Address and User as classes and include the necessary methods within the User class.
+class Address {
+  doorNumber?: string;
+  streetName?: string;
+  city?: string;
+  country?: string;
+
+  constructor(
+    doorNumber?: string,
+    streetName?: string,
+    city?: string,
+    country?: string
+  ) {
+    this.doorNumber = doorNumber;
+    this.streetName = streetName;
+    this.city = city;
+    this.country = country;
+  }
+}
+
+class User {
+  name: string;
+  address?: Address;
+
+  constructor(name: string, address?: Address) {
+    this.name = name;
+    this.address = address;
+  }
+
+  getFullAddress(): string {
+    const { doorNumber, streetName, city, country } = this.address || {};
+    return `${doorNumber ? doorNumber + ', ' : ''}${
+      streetName ? streetName + ', ' : ''
+    }${city}, ${country || ''}`
+      .trim()
+      .replace(/,\s*$/, '');
+  }
+
+  static getUserCity(user: User): string {
+    return user.address?.city || 'Unknown city';
+  }
+}
+
+// Provide a user with a city and implement the method
+const address = new Address('123', 'Main St', 'New York', 'USA');
+const user = new User('John Doe', address);
+
+console.log(User.getUserCity(user)); // New York
+console.log(user.getFullAddress()); // 123, Main St, New York, USA
+_____________________________________________________________________________________
+
+-> 
+const person = {
+  name: 'Alice',
+  age: 25,
+  address: {
+    city: 'Wonderland',
+    country: 'Fantasy',
+  },
+};
+
+// Destructuring assignment with renamed variables
+const {
+  name,    // Cannot redeclare block-scoped variable 'name'.   lib.dom.d.ts(27609, 15): 'name' was also declared here.
+  age,
+  address: { city, country },
+} = person;
+
+console.log(name); 
+console.log(age); 
+console.log(city); 
+console.log(country); 
+---------------------------------------------------------------------------------
+-> above code fixed.
+const person = {
+  name: 'Alice',
+  age: 25,
+  address: {
+    city: 'Wonderland',
+    country: 'Fantasy',
+  },
+};
+
+// Destructuring assignment with renamed variables
+const {
+  name: personName,
+  age,
+  address: { city, country },
+} = person;
+
+console.log(personName); // Alice
+console.log(age); // 25
+console.log(city); // Wonderland
+console.log(country); // Fantasy
+_____________________________________________________________________________________
+
 
 
