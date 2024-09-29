@@ -144,5 +144,71 @@ console.log(city); // Wonderland
 console.log(country); // Fantasy
 _____________________________________________________________________________________
 
+-> javascript code that works fine but fails in Typescript
+function sum(x, y, z) {
+  return x + y + z;
+}
+
+const numbers = [1, 2, 3];
+
+console.log(sum(...numbers));
+
+---------------------------------------------------------------------------------
+
+The error occurs because TypeScript's strict typing system requires a tuple type (fixed-length array) when spreading into a function that expects a specific number of arguments.
+
+In your case, the function sum expects three arguments, but numbers is typed as an array of number[], which could have any length. To fix this, you can explicitly define numbers as a tuple with a specific length,
+
+
+function sum(x: number, y: number, z: number): number {
+  return x + y + z;
+}
+
+const numbers: number[] = [1, 2, 3];
+
+console.log(sum(...numbers));  // A spread argument must either have a tuple type or be passed to a rest parameter.
+
+---------------------------------------------------------------------------------
+//fix1
+function sum(x, y, z) {
+  return x + y + z;
+}
+
+const numbers: [number, number, number] = [1, 2, 3]; // Define as a tuple
+
+console.log(sum(...numbers));
+
+Explanation:
+const numbers: [number, number, number]: Declares numbers as a tuple with exactly three elements, each being a number. This ensures TypeScript understands that numbers can be spread into sum.
+
+---------------------------------------------------------------------------------
+//fix2 
+
+function sum(...args): number {
+  let total = 0;
+  for (const arg of args) {
+    total += arg;
+  }
+  return total;
+}
+
+const numbers: number[] = [1, 2, 3];
+
+console.log(sum(...numbers));
+---------------------------------------------------------------------------------
+
+//fix3
+function sum(arr: number[]): number {
+  return arr.reduce((a, b) => a + b, 0);
+}
+
+const numbers: number[] = [1, 2, 3];
+
+console.log(sum(numbers));
+
+_____________________________________________________________________________________
+
+
+
 
 
