@@ -1,0 +1,76 @@
+-> Examples Using the Rest Operator
+Example 1: Function Parameters
+The rest operator allows a function to accept an indefinite number of arguments as an array.
+
+function sum(...numbers: number[]): number {
+  return numbers.reduce((acc, curr) => acc + curr, 0);
+}
+
+console.log(sum(1, 2, 3)); // Output: 6
+console.log(sum(4, 5, 6, 7)); // Output: 22
+
+Explanation: The ...numbers syntax collects all arguments passed to the function into an array named numbers.
+---------------------------------------------------------------------------------
+Example 2: Array Destructuring
+The rest operator can be used to collect the remaining elements of an array into a new array.
+
+const [first, second, ...rest] = [1, 2, 3, 4, 5];
+console.log(first); // Output: 1
+console.log(second); // Output: 2
+console.log(rest); // Output: [3, 4, 5]
+
+Explanation: The ...rest syntax collects all remaining elements after the first two into a new array named rest.
+---------------------------------------------------------------------------------
+Example 3: Object Destructuring
+The rest operator can be used to collect the remaining properties of an object into a new object.
+
+const person = { name: 'John', age: 30, city: 'New York', country: 'USA' };
+const { name: personName, age, ...rest } = person;
+console.log(personName); // Output: John
+console.log(age); // Output: 30
+console.log(rest); // Output: { city: 'New York', country: 'USA' }
+
+Explanation: The ...rest syntax collects all remaining properties after name and age into a new object named rest.
+---------------------------------------------------------------------------------
+4. Concatenating Strings
+
+function concatenate(...strings: string[]): string {
+  return strings.join(' ');
+}
+
+console.log(concatenate('Hello', 'world!')); // Output: 'Hello world!'
+console.log(concatenate('TypeScript', 'is', 'awesome!')); // Output: 'TypeScript is awesome!'
+---------------------------------------------------------------------------------
+5. Merging Arrays
+
+function mergeArrays<T>(...arrays: T[][]): T[] {
+  return arrays.flat();
+}
+
+console.log(mergeArrays([1, 2], [3, 4], [5, 6])); // Output: [1, 2, 3, 4, 5, 6]
+console.log(mergeArrays(['a', 'b'], ['c', 'd'])); // Output: ['a', 'b', 'c', 'd']
+---------------------------------------------------------------------------------
+
+6. Filtering Even Numbers
+
+function filterEvenNumbers(...numbers: number[]): number[] {
+  return numbers.filter((num) => num % 2 === 0);
+}
+
+console.log(filterEvenNumbers(1, 2, 3, 4, 5, 6)); // Output: [2, 4, 6]
+console.log(filterEvenNumbers(7, 8, 9, 10)); // Output: [8, 10]
+---------------------------------------------------------------------------------
+7. Combining Objects
+
+function combineObjects(...objects: object[]): object {
+  return Object.assign({}, ...objects);
+}
+
+const obj1 = { a: 1 };
+const obj2 = { b: 2 };
+const obj3 = { c: 3 };
+
+console.log(combineObjects(obj1, obj2, obj3)); // Output: { a: 1, b: 2, c: 3 }
+_____________________________________________________________________________________
+
+

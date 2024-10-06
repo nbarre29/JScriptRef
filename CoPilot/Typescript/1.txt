@@ -208,6 +208,65 @@ console.log(sum(numbers));
 
 _____________________________________________________________________________________
 
+-> Throwing errors explicitly helps make it easier to understand and handle errors when they occur. To "throw an error" means to generate an exception that halts the normal flow of code execution and transfers control to any error-handling mechanism (like a try...catch block). 
+
+// Function to divide two numbers, throwing an error if division by zero is attempted
+function divide(a: number, b: number): number {
+  if (b === 0) {
+    throw new Error('Division by zero is not allowed.');
+  }
+  return a / b;
+}
+
+try {
+  const result = divide(10, 0); // Will throw an error
+  console.log(result);
+} catch (error) {
+  if (error instanceof Error) {
+    console.error('Error occurred:', error.message); // Output: Error occurred: Division by zero is not allowed.
+  }
+}
+
+Key Points:
+1) Function with error throwing:
+The divide function checks if the second argument (b) is zero. If so, it throws an error using throw new Error("...").
+
+2) Error handling with try...catch:
+The try block runs the function and attempts to catch any errors thrown.
+The catch block catches the error, checks if it's an instance of the Error class, and handles it by logging the error message.
+
+Benefits:
+1) Explicit error messages: By throwing custom errors, the error becomes more descriptive, making debugging and troubleshooting easier.
+
+2) Controlled error handling: Errors can be caught and handled in the catch block, preventing the program from crashing and allowing for smoother user experiences.
+
+---------------------------------------------------------------------------------
+// Function to validate username length
+function validateUsername(username: string): void {
+  if (username.length < 3) {
+    throw new Error('Username must be at least 3 characters long.');
+  }
+  if (username.length > 20) {
+    throw new Error(
+      'Username must be less than or equal to 20 characters long.'
+    );
+  }
+  console.log('Username is valid!');
+}
+
+try {
+  const username = 'Jo'; // Invalid username: too short
+  validateUsername(username); // This will throw an error
+} catch (error) {
+  if (error instanceof Error) {
+    console.error('Validation Error:', error.message); // Handles the error   // Output: Validation Error: Username must be at least 3 characters long.
+  }
+}
+_____________________________________________________________________________________
+
+
+
+
 
 
 
